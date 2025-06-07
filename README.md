@@ -1,10 +1,7 @@
 
 # Lemonade-Backend (NestJS)
 
-[![NestJS](https://img.shields.io/badge/NestJS-v9+-E0234E)](https://nestjs.com)  
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.5+-3178C6)](https://typescriptlang.org)  
-[![Node.js](https://img.shields.io/badge/Node.js-16+-339933)](https://nodejs.org)  
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![NestJS](https://img.shields.io/badge/NestJS-v9+-E0234E)](https://nestjs.com)   [![TypeScript](https://img.shields.io/badge/TypeScript-4.5+-3178C6)](https://typescriptlang.org)  [![Node.js](https://img.shields.io/badge/Node.js-16+-339933)](https://nodejs.org) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Overview
 
