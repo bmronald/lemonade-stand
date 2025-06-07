@@ -111,11 +111,11 @@ Key features:
 
 ### Order Processing
 
-| Method | Endpoint      | Description                  | Request Body Example                                                                                                                                                                                                                                 |   |           |                          |   |
-| ------ | ------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | - | --------- | ------------------------ | - |
-| POST   | `/orders`     | Place a new customer order   | `{ "customerName": "Alice", "customerContact": "alice@example.com", "items": [ { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 2 }, { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 1 } ] }` |   |           |                          |   |
+| Method | Endpoint      | Description                  | Request Body Example                                                                                                                                                                                                                                 |               
+| ------ | ------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | `/orders`     | Place a new customer order   | `{ "customerName": "Alice", "customerContact": "alice@example.com", "items": [ { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 2 }, { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 1 } ] }` |   
 | GET    | `/orders`     | List all customer orders     | —                                                                                                                                                                                                                                                    |   
-| GET    | `/orders/:id` | Retrieve one order by its ID | —                                                                                                                                                                                                                                                    |   |           |                          |   |
+| GET    | `/orders/:id` | Retrieve one order by its ID | —                                                                                                                                                                                                                                                    |  
 
 Each `POST /orders` response returns a JSON object: confirmationNumber, totalPrice, items array, and timestamps.
 
