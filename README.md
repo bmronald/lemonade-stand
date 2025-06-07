@@ -54,7 +54,7 @@ Key features:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/<your-username>/lemonade-backend.git
+   git clone https://github.com/bmronald/lemonade-stand.git
    cd lemonade-backend
    ```
 2. **Configure environment variables**
