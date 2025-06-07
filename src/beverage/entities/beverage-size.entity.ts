@@ -12,7 +12,7 @@ export class BeverageSize {
   id: string;
 
   @Column({ unique: true })
-  name: string; // e.g. "Small", "Medium", "Large"
+  name: string; 
 
   // One size can appear in many PriceLinks (one per beverage type)
   @OneToMany(() => PriceLink, (price) => price.beverageSize, {

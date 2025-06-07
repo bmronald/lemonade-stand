@@ -9,7 +9,7 @@ import { BeverageType } from './beverage-type.entity';
 import { BeverageSize } from './beverage-size.entity';
 
 @Entity({ name: 'price_links' })
-@Unique(['beverageType', 'beverageSize']) // one price per (type, size)
+@Unique(['beverageType', 'beverageSize']) 
 export class PriceLink {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -27,5 +27,5 @@ export class PriceLink {
   beverageSize: BeverageSize;
 
   @Column('decimal', { precision: 7, scale: 2 })
-  price: number; // e.g. 2.00, 3.50
+  price: number; 
 }

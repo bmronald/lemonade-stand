@@ -1,0 +1,23 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder          
+    volumes:
+      - .:/usr/src/app        
+      - node_modules:/usr/src/app/node_modules
+    command: npm run start:dev
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_NAME: lemonade
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+
+volumes:
+  node_modules:

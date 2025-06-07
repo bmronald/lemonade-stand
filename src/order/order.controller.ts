@@ -8,26 +8,43 @@ import {
 
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { Order } from './entities/order.entity';
 
+/**
+ * Controller responsible for handling order-related endpoints.
+ */
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  // 1) Place a new order
+  /**
+   * Place a new order for beverages.
+   * @param createOrderDto DTO containing customer info and order items.
+   * @returns The newly created Order entity.
+   */
   @Post()
-  createOrder(@Body() dto: CreateOrderDto) {
-    return this.orderService.createOrder(dto);
+  async createOrder(
+    @Body() createOrderDto: CreateOrderDto,
+  ): Promise<Order> {
+    return this.orderService.createOrder(createOrderDto);
   }
 
-  // 2) (Optional) List all orders
+  /**
+   * Retrieve a list of all orders.
+   * @returns Array of Order entities.
+   */
   @Get()
-  findAllOrders() {
+  async findAllOrders(): Promise<Order[]> {
     return this.orderService.findAllOrders();
   }
 
-  // 3) Get one order by ID
+  /**
+   * Retrieve a single order by its unique identifier.
+   * @param id UUID of the order.
+   * @returns The requested Order entity.
+   */
   @Get(':id')
-  findOneOrder(@Param('id') id: string) {
+  async findOneOrder(@Param('id') id: string): Promise<Order> {
     return this.orderService.findOneOrder(id);
   }
 }
