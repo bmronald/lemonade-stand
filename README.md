@@ -1,62 +1,69 @@
+
 # Lemonade-Backend (NestJS)
 
-[![NestJS](https://img.shields.io/badge/NestJS-v9+-E0234E)](https://nestjs.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.5+-3178C6)](https://typescriptlang.org)
-[![Node.js](https://img.shields.io/badge/Node.js-16+-339933)](https://nodejs.org)
+[![NestJS](https://img.shields.io/badge/NestJS-v9+-E0234E)](https://nestjs.com)  
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.5+-3178C6)](https://typescriptlang.org)  
+[![Node.js](https://img.shields.io/badge/Node.js-16+-339933)](https://nodejs.org)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Overview
 
-A digital lemonade stand backend to manage beverage offerings and streamline order processing for administrators and customers.
+A digital lemonade-stand backend to manage beverage offerings and streamline order processing for administrators and customers.
 
 Key features:
 
-* CRUD operations for beverage types, sizes, and price links.
-* Customer-facing order placement with automatic total calculation and confirmation IDs.
-* Input validation and transactional order processing.
+- CRUD operations for beverage types, sizes, and price links  
+- Customer-facing order placement with automatic total calculation and confirmation IDs  
+- Input validation and transactional order processing  
 
 ---
 
 ## Table of Contents
 
-* [Overview](#overview)
-* [Tech Stack](#tech-stack)
-* [Prerequisites](#prerequisites)
-* [Setup](#setup)
-* [API Reference](#api-reference)
+- [Overview](#overview)  
+- [Tech Stack](#tech-stack)  
+- [Prerequisites](#prerequisites)  
+- [Setup](#setup)  
+  - [Local Development](#local-development)  
+  - [Docker Setup](#docker-setup)  
+- [API Reference](#api-reference)  
+  - [Beverage Management](#beverage-management)  
+  - [Order Processing](#order-processing)  
+- [Project Structure](#project-structure)  
+- [Design Choices & Assumptions](#design-choices--assumptions)  
+- [Contributing](#contributing)  
+- [License](#license)  
 
-  * [Beverage Management](#beverage-management)
-  * [Order Processing](#order-processing)
-* [Project Structure](#project-structure)
-* [Design Choices & Assumptions](#design-choices--assumptions)
-* [Contributing](#contributing)
-* [Testing](#testing)
-* [License](#license)
-
+---
 
 ## Tech Stack
 
-* **NestJS** (v9+) + **TypeScript** (4.5+)
-* **Node.js** (16+)
-* **TypeORM** (0.3.x) + **PostgreSQL** (13+)
-* **class-validator** (0.13+) / **class-transformer** (0.5+)
-* **Jest** for testing
-* **Docker** (optional)
+- **NestJS** (v9+) + **TypeScript** (4.5+)  
+- **Node.js** (16+)  
+- **TypeORM** (0.3.x) + **PostgreSQL** (13+)  
+- **class-validator** (0.13+) / **class-transformer** (0.5+)  
+- **Jest** for testing  
+- **Docker** & **Docker Compose** (optional)  
+
+---
 
 ## Prerequisites
 
-* **Node.js** 16 or above
-* **npm** ≥ 6 or **Yarn** ≥ 1.22
-* A running **PostgreSQL** instance (local or via Docker)
+- **Node.js** 16 or above  
+- **npm** ≥ 6 or **Yarn** ≥ 1.22  
+- A running **PostgreSQL** instance (local or via Docker)  
+- **Docker** & **Docker Compose** (for containerized setup)  
+
+---
 
 ## Setup
 
-1. **Clone the repository**
+### Local Development
 
+1. **Clone the repository**  
    ```bash
    git clone https://github.com/bmronald/lemonade-backend.git
    cd lemonade-backend
-   ```
 2. **Configure environment variables**
    Create a `.env` file in the project root:
 
@@ -67,11 +74,13 @@ Key features:
    DB_USER=postgres
    DB_PASS=postgres
    ```
+
 3. **Create the database**
 
    ```sql
    CREATE DATABASE lemonade;
    ```
+
 4. **Install dependencies**
 
    ```bash
@@ -79,19 +88,46 @@ Key features:
    # or
    yarn install
    ```
-5. **Run locally**
+
+5. **Run in development mode**
 
    ```bash
    npm run start:dev
    ```
 
-   Server reloads on change and listens at `http://localhost:3000`.
+   The server will reload on file changes and listen at `http://localhost:3000`.
+
+---
+
+### Docker Setup
+
+1. **Ensure Docker & Docker Compose are installed**
+
+   * [Install Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+2. **Build and start containers**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   * This will spin up a PostgreSQL container and the NestJS app
+   * The API will be available at `http://localhost:3000`
+   * Postgres listens on `localhost:5432` with credentials from `docker-compose.yml`
+
+3. **Stop and remove containers**
+
+   ```bash
+   docker-compose down
+   ```
+
+---
 
 ## API Reference
 
 ### Beverage Management
 
-| Method | Endpoint               | Description                              | Request Body Example                                                              |
+| Method | Endpoint               | Description                              | Body Example                                                                      |
 | ------ | ---------------------- | ---------------------------------------- | --------------------------------------------------------------------------------- |
 | POST   | `/beverage/types`      | Create a new beverage type               | `{ "name": "Classic Lemonade" }`                                                  |
 | GET    | `/beverage/types`      | List all beverage types (with prices)    | —                                                                                 |
@@ -111,23 +147,22 @@ Key features:
 
 ### Order Processing
 
-| Method | Endpoint      | Description                  | Request Body Example                                                                                                                                                                                                                                 |               
-| ------ | ------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | `/orders`     | Place a new customer order   | `{ "customerName": "Alice", "customerContact": "alice@example.com", "items": [ { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 2 }, { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 1 } ] }` |   
-| GET    | `/orders`     | List all customer orders     | —                                                                                                                                                                                                                                                    |   
-| GET    | `/orders/:id` | Retrieve one order by its ID | —                                                                                                                                                                                                                                                    |  
+| Method | Endpoint      | Description                | Body Example                                                                                                                                                        |
+| ------ | ------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | `/orders`     | Place a new customer order | `{ "customerName": "Alice", "customerContact": "alice@example.com", "items": [ { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 2 } ] }` |
+| GET    | `/orders`     | List all customer orders   | —                                                                                                                                                                   |
+| GET    | `/orders/:id` | Retrieve one order by ID   | —                                                                                                                                                                   |
 
-Each `POST /orders` response returns a JSON object: confirmationNumber, totalPrice, items array, and timestamps.
+---
 
 ## Project Structure
 
-*(Development folders such as `.git/` and `.vscode/` omitted for clarity)*
-
-```plaintext
+```
 .
+├── Dockerfile
+├── docker-compose.yml
 ├── dist/
 ├── node_modules/
-├── sql/
 ├── src/
 │   ├── app.module.ts
 │   ├── main.ts
@@ -136,62 +171,43 @@ Each `POST /orders` response returns a JSON object: confirmationNumber, totalPri
 │   │   ├── beverage.service.ts
 │   │   ├── beverage.controller.ts
 │   │   ├── dto/
-│   │   │   ├── create-beverage-type.dto.ts
-│   │   │   ├── update-beverage-type.dto.ts
-│   │   │   ├── create-beverage-size.dto.ts
-│   │   │   ├── update-beverage-size.dto.ts
-│   │   │   ├── create-price-link.dto.ts
-│   │   │   └── update-price-link.dto.ts
 │   │   └── entities/
-│   │       ├── beverage-type.entity.ts
-│   │       ├── beverage-size.entity.ts
-│   │       └── price-link.entity.ts
 │   └── order/
 │       ├── order.module.ts
 │       ├── order.service.ts
 │       ├── order.controller.ts
 │       ├── dto/
-│       │   ├── create-order-item.dto.ts
-│       │   └── create-order.dto.ts
 │       └── entities/
-│           ├── order.entity.ts
-│           └── order-item.entity.ts
 ```
+
+---
 
 ## Design Choices & Assumptions
 
-* **UUIDs** as primary keys for global uniqueness.
-* **PriceLink** join table to map any beverage type × size combination.
-* **Global ValidationPipe** to enforce DTO schemas and strip unknown properties.
-* **TypeORM transactions** to ensure atomic order creation.
+* **UUIDs** for all primary keys, ensuring global uniqueness.
+* **PriceLink** join table to flexibly map any beverage type × size combination.
+* **Global ValidationPipe** enforcing DTO schemas and stripping unknown properties.
+* **TypeORM transactions** for atomic, reliable order creation.
 * **Eager relations** on PriceLink and OrderItem for simplified data retrieval.
+* **Input Validation** (bonus): robust server-side validation via `class-validator` and a global `ValidationPipe`.
+* **Containerization** (bonus): Dockerfile and `docker-compose.yml` provided to run the backend and database in containers.
+
+---
 
 ## Contributing
 
-Contributions are welcome! To contribute:
+Contributions are welcome! Please:
 
 1. Fork the repository
-2. Create a new branch `feature/your-feature`
+2. Create a branch `feature/your-feature`
 3. Commit your changes
 4. Open a pull request against `main`
 
-Please adhere to the existing code style and add tests for any new functionality.
-
-## Testing
-
-* Run **unit tests**:
-
-  ```bash
-  npm run test
-  ```
-* Run **test coverage**:
-
-  ```bash
-  npm run test:cov
-  ```
-
-Integration tests (using in-memory SQLite) live in the `/test` directory.
+---
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+```
+```
