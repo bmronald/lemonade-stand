@@ -26,6 +26,7 @@ Key features:
 - [API Reference](#api-reference)  
   - [Beverage Management](#beverage-management)  
   - [Order Processing](#order-processing)  
+- [Swagger-UI](#swagger-ui)
 - [Project Structure](#project-structure)  
 - [Design Choices & Assumptions](#design-choices--assumptions)  
 - [Contributing](#contributing)  
@@ -41,6 +42,7 @@ Key features:
 - **class-validator** (0.13+) / **class-transformer** (0.5+)  
 - **Jest** for testing  
 - **Docker** & **Docker Compose** (optional)  
+- **Swagger** (`@nestjs/swagger`, `swagger-ui-express`)
 
 ---
 
@@ -109,8 +111,9 @@ Key features:
    ```
 
    * This will spin up a PostgreSQL container and the NestJS app
-   * The API will be available at `http://localhost:3000`
+   * Swagger UI will be available at `http://localhost:3000/api-docs`
    * Postgres listens on `localhost:5432` with credentials from `docker-compose.yml`
+   * All API routes are prefixed with `/api`, e.g. GET `/api/beverage/types`
 
 3. **Stop and remove containers**
 
@@ -126,40 +129,45 @@ Key features:
 
 | Method | Endpoint               | Description                              | Body Example                                                                      |
 | ------ | ---------------------- | ---------------------------------------- | --------------------------------------------------------------------------------- |
-| POST   | `/beverage/types`      | Create a new beverage type               | `{ "name": "Classic Lemonade" }`                                                  |
-| GET    | `/beverage/types`      | List all beverage types (with prices)    | —                                                                                 |
-| GET    | `/beverage/types/:id`  | Get one beverage type by ID              | —                                                                                 |
-| PATCH  | `/beverage/types/:id`  | Update beverage type name                | `{ "name": "New Lemonade" }`                                                      |
-| DELETE | `/beverage/types/:id`  | Delete a beverage type (cascades prices) | —                                                                                 |
-| POST   | `/beverage/sizes`      | Create a new beverage size               | `{ "name": "Small" }`                                                             |
-| GET    | `/beverage/sizes`      | List all beverage sizes (with prices)    | —                                                                                 |
-| GET    | `/beverage/sizes/:id`  | Get one beverage size by ID              | —                                                                                 |
-| PATCH  | `/beverage/sizes/:id`  | Update beverage size name                | `{ "name": "Medium" }`                                                            |
-| DELETE | `/beverage/sizes/:id`  | Delete a beverage size (cascades prices) | —                                                                                 |
-| POST   | `/beverage/prices`     | Link type + size to a price              | `{ "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "price": 2.50 }` |
-| GET    | `/beverage/prices`     | List all price links                     | —                                                                                 |
-| GET    | `/beverage/prices/:id` | Get one price link by ID                 | —                                                                                 |
-| PATCH  | `/beverage/prices/:id` | Update price or reassign type/size       | `{ "price": 3.00 }`                                                               |
-| DELETE | `/beverage/prices/:id` | Remove a price link                      | —                                                                                 |
+| POST   | `/api/beverage/types`      | Create a new beverage type               | `{ "name": "Classic Lemonade" }`                                                  |
+| GET    | `/api/beverage/types`      | List all beverage types (with prices)    | —                                                                                 |
+| GET    | `/api/beverage/types/:id`  | Get one beverage type by ID              | —                                                                                 |
+| PATCH  | `/api/beverage/types/:id`  | Update beverage type name                | `{ "name": "New Lemonade" }`                                                      |
+| DELETE | `/api/beverage/types/:id`  | Delete a beverage type (cascades prices) | —                                                                                 |
+| POST   | `/api/beverage/sizes`      | Create a new beverage size               | `{ "name": "Small" }`                                                             |
+| GET    | `/api/beverage/sizes`      | List all beverage sizes (with prices)    | —                                                                                 |
+| GET    | `/api/beverage/sizes/:id`  | Get one beverage size by ID              | —                                                                                 |
+| PATCH  | `/api/beverage/sizes/:id`  | Update beverage size name                | `{ "name": "Medium" }`                                                            |
+| DELETE | `/api/beverage/sizes/:id`  | Delete a beverage size (cascades prices) | —                                                                                 |
+| POST   | `/api/beverage/prices`     | Link type + size to a price              | `{ "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "price": 2.50 }` |
+| GET    | `/api/beverage/prices`     | List all price links                     | —                                                                                 |
+| GET    | `/api/beverage/prices/:id` | Get one price link by ID                 | —                                                                                 |
+| PATCH  | `/api/beverage/prices/:id` | Update price or reassign type/size       | `{ "price": 3.00 }`                                                               |
+| DELETE | `/api/beverage/prices/:id` | Remove a price link                      | —                                                                                 |
 
 ### Order Processing
 
 | Method | Endpoint      | Description                | Body Example                                                                                                                                                        |
 | ------ | ------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | `/orders`     | Place a new customer order | `{ "customerName": "Alice", "customerContact": "alice@example.com", "items": [ { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 2 } ] }` |
-| GET    | `/orders`     | List all customer orders   | —                                                                                                                                                                   |
-| GET    | `/orders/:id` | Retrieve one order by ID   | —                                                                                                                                                                   |
+| POST   | `/api/orders`     | Place a new customer order | `{ "customerName": "Alice", "customerContact": "alice@example.com", "items": [ { "beverageTypeId": "<type-id>", "beverageSizeId": "<size-id>", "quantity": 2 } ] }` |
+| GET    | `/api/orders`     | List all customer orders   | —                                                                                                                                                                   |
+| GET    | `/api/orders/:id` | Retrieve one order by ID   | —                                                                                                                                                                   |
 
 ---
+## Swagger UI
+The application exposes interactive API documentation compliant with the OpenAPI spec. Visit: `http://localhost:3000/api-docs`
+You can view available routes, schemas, try out requests, and see response examples directly in the browser.
 
+---
 ## Project Structure
 
 ```
-.
 ├── Dockerfile
 ├── docker-compose.yml
+├── docker-compose.override.yml
 ├── dist/
 ├── node_modules/
+├── sql/
 ├── src/
 │   ├── app.module.ts
 │   ├── main.ts
@@ -168,13 +176,26 @@ Key features:
 │   │   ├── beverage.service.ts
 │   │   ├── beverage.controller.ts
 │   │   ├── dto/
+│   │   │   ├── create-beverage-type.dto.ts
+│   │   │   ├── update-beverage-type.dto.ts
+│   │   │   ├── create-beverage-size.dto.ts
+│   │   │   ├── update-beverage-size.dto.ts
+│   │   │   ├── create-price-link.dto.ts
+│   │   │   └── update-price-link.dto.ts
 │   │   └── entities/
+│   │       ├── beverage-type.entity.ts
+│   │       ├── beverage-size.entity.ts
+│   │       └── price-link.entity.ts
 │   └── order/
 │       ├── order.module.ts
 │       ├── order.service.ts
 │       ├── order.controller.ts
 │       ├── dto/
+│       │   ├── create-order-item.dto.ts
+│       │   └── create-order.dto.ts
 │       └── entities/
+│           ├── order.entity.ts
+│           └── order-item.entity.ts
 ```
 
 ---
@@ -186,25 +207,13 @@ Key features:
 * **Global ValidationPipe** enforcing DTO schemas and stripping unknown properties.
 * **TypeORM transactions** for atomic, reliable order creation.
 * **Eager relations** on PriceLink and OrderItem for simplified data retrieval.
+* **ParseUUIDPipe** on all :id params for 400 on invalid format.
+* **Swagger Integration** using @nestjs/swagger and swagger-ui-express.
 * **Input Validation** (bonus): robust server-side validation via `class-validator` and a global `ValidationPipe`.
 * **Containerization** (bonus): Dockerfile and `docker-compose.yml` provided to run the backend and database in containers.
-
----
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a branch `feature/your-feature`
-3. Commit your changes
-4. Open a pull request against `main`
 
 ---
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-```
-```
